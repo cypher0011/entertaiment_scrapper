@@ -399,17 +399,27 @@ body{
 .stars{color:#FBBF24;letter-spacing:1px;font-size:.85rem}
 .rcount{color:var(--text3);font-size:.75rem}
 
-/* CRM dot on card */
+/* CRM dot on card — indexed by pipeline stage */
 .crm-dot{
   width:9px;height:9px;border-radius:50%;display:inline-block;
   flex-shrink:0;transition:background .2s;
 }
-.crm-not_called {background:var(--text3)}
-.crm-no_answer  {background:#D29922}
-.crm-interested {background:#3FB950}
-.crm-follow_up  {background:#58A6FF}
-.crm-rejected   {background:#DA3633}
-.crm-closed     {background:#A371F7}
+.crm-target    {background:var(--text3)}
+.crm-contacted {background:#D29922}
+.crm-qualified {background:#58A6FF}
+.crm-discovery {background:#A371F7}
+.crm-proposal  {background:#F78166}
+.crm-owner_in  {background:#3FB950}
+.crm-contract  {background:#3FB950;box-shadow:0 0 5px #3FB950}
+.crm-won       {background:#3FB950;box-shadow:0 0 7px #3FB950}
+.crm-lost      {background:#DA3633}
+/* legacy */
+.crm-not_called{background:var(--text3)}
+.crm-no_answer {background:#D29922}
+.crm-interested{background:#3FB950}
+.crm-follow_up {background:#58A6FF}
+.crm-rejected  {background:#DA3633}
+.crm-closed    {background:#A371F7}
 .crm-badge-row{
   display:flex;align-items:center;gap:5px;
   padding-top:.4rem;border-top:1px solid var(--border);
@@ -659,7 +669,219 @@ body{
 .crm-chip-purple{border-color:rgba(124,58,237,.3);color:#C4B5FD}
 .crm-chip-gold  {border-color:rgba(210,153,34,.3);color:#FBBF24}
 
-/* ── LIGHTBOX ── */
+/* ── CRM SECTIONS & STAGE SELECTOR ── */
+.crm-section{
+  display:flex;flex-direction:column;gap:.55rem;
+  padding:.9rem;background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r-sm);
+}
+.crm-section-title{
+  font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--accent);padding-bottom:.4rem;border-bottom:1px solid var(--border);
+}
+.crm-textarea-sm{min-height:52px}
+
+.stage-selector{
+  display:flex;flex-direction:column;gap:.3rem;
+  margin-top:.3rem;
+}
+.stage-btn{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.5rem .75rem;border-radius:7px;
+  font-family:inherit;font-size:.82rem;font-weight:500;
+  cursor:pointer;transition:all .15s;text-align:right;
+  background:transparent;border:1px solid var(--border);
+  color:var(--text2);width:100%;
+}
+.stage-btn:hover{background:var(--surface3);color:var(--text)}
+.stage-btn.active{
+  background:rgba(124,58,237,.15);
+  border-color:rgba(124,58,237,.5);
+  color:var(--text);font-weight:700;
+}
+.stage-btn.stage-won.active{background:rgba(63,185,80,.15);border-color:rgba(63,185,80,.5)}
+.stage-btn.stage-lost.active{background:rgba(218,54,51,.15);border-color:rgba(218,54,51,.5)}
+.stage-note-wrap{margin-top:.3rem}
+
+/* CRM action buttons */
+.crm-log-btn{
+  padding:.5rem .9rem;border-radius:var(--r-sm);font-family:inherit;font-size:.82rem;font-weight:600;
+  background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.3);
+  color:#60A5FA;cursor:pointer;transition:all .15s;
+}
+.crm-log-btn:hover{background:rgba(88,166,255,.22)}
+.crm-obj-btn{
+  padding:.5rem .9rem;border-radius:var(--r-sm);font-family:inherit;font-size:.82rem;font-weight:600;
+  background:rgba(210,153,34,.1);border:1px solid rgba(210,153,34,.3);
+  color:#FBBF24;cursor:pointer;transition:all .15s;
+}
+.crm-obj-btn:hover{background:rgba(210,153,34,.2)}
+
+/* Objections */
+.obj-row{
+  display:flex;flex-direction:column;gap:.25rem;
+  padding:.6rem;background:var(--surface3);border-radius:7px;
+  border:1px solid var(--border);position:relative;
+}
+.obj-type-badge{
+  font-size:.68rem;font-weight:700;color:#FBBF24;
+  text-transform:uppercase;letter-spacing:.5px;
+}
+.obj-quote{font-size:.85rem;color:var(--text);font-style:italic}
+.obj-handled{font-size:.78rem;color:var(--text2)}
+.obj-del-btn{
+  position:absolute;top:6px;left:6px;
+  background:none;border:none;color:var(--text3);
+  cursor:pointer;font-size:.8rem;padding:2px 5px;
+  border-radius:4px;
+}
+.obj-del-btn:hover{color:#F85149;background:rgba(218,54,51,.1)}
+
+/* Activity history */
+.history-list{display:flex;flex-direction:column;gap:.3rem}
+.hist-row{
+  display:flex;align-items:flex-start;gap:.5rem;
+  font-size:.8rem;color:var(--text2);
+  padding:.4rem .5rem;border-radius:6px;
+  background:var(--surface3);
+}
+.hist-row.hist-stage{color:var(--text);background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2)}
+.hist-icon{color:var(--accent);flex-shrink:0;font-size:.75rem;margin-top:1px}
+.hist-note{font-size:.75rem;color:var(--text3)}
+.hist-date{font-size:.72rem;color:var(--text3);margin-right:auto;white-space:nowrap}
+.empty-hint{font-size:.8rem;color:var(--text3);padding:.3rem 0}
+
+/* CRM Modal / Overlay */
+.crm-overlay{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+}
+.crm-modal{
+  background:var(--surface);border:1px solid var(--border2);
+  border-radius:16px;width:100%;max-width:520px;
+  overflow:hidden;animation:fadeInUp .2s ease;
+  max-height:85vh;overflow-y:auto;
+}
+.crm-modal-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 1.1rem;border-bottom:1px solid var(--border);
+  font-size:.95rem;font-weight:700;direction:rtl;
+  position:sticky;top:0;background:var(--surface);z-index:1;
+}
+.crm-modal-header button{
+  background:none;border:1px solid var(--border);
+  color:var(--text2);width:28px;height:28px;border-radius:6px;
+  cursor:pointer;font-size:.85rem;
+}
+.crm-modal-header button:hover{border-color:var(--danger);color:var(--danger)}
+.crm-modal-body{
+  padding:1rem;display:flex;flex-direction:column;gap:.75rem;direction:rtl;
+}
+.crm-stat-chip.crm-chip-red{border-color:rgba(218,54,51,.3);color:#F85149}
+
+/* ── PIPELINE PAGE ── */
+#pipeline-page{
+  display:none;padding:1.5rem;direction:rtl;
+  flex:1;overflow-y:auto;
+}
+#pipeline-page.visible{display:block}
+.pipeline-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;
+}
+.pipeline-title{font-size:1.3rem;font-weight:800;color:var(--text)}
+.pipeline-summary{
+  display:flex;gap:.65rem;flex-wrap:wrap;
+}
+.pip-stat{
+  display:flex;flex-direction:column;align-items:center;
+  padding:.5rem .85rem;background:var(--surface2);
+  border:1px solid var(--border);border-radius:var(--r-sm);
+  min-width:80px;
+}
+.pip-num{font-size:1.4rem;font-weight:800;font-family:'Inter',sans-serif;line-height:1}
+.pip-num.green{color:#3FB950}.pip-num.red{color:#F85149}
+.pip-num.accent{color:#A78BFA}.pip-num.gold{color:#FBBF24}
+.pip-label{font-size:.65rem;color:var(--text3);margin-top:.2rem;text-align:center}
+
+.overdue-section{
+  background:rgba(218,54,51,.08);border:1px solid rgba(218,54,51,.25);
+  border-radius:var(--r);padding:.85rem 1rem;margin-bottom:1.25rem;
+}
+.overdue-title{font-size:.82rem;font-weight:700;color:#F85149;margin-bottom:.6rem}
+.overdue-list{display:flex;flex-direction:column;gap:.35rem}
+.overdue-item{
+  display:flex;align-items:center;gap:.75rem;
+  font-size:.82rem;cursor:pointer;padding:.35rem .5rem;
+  border-radius:6px;transition:background .15s;
+}
+.overdue-item:hover{background:rgba(218,54,51,.12)}
+.overdue-date{color:#F85149;font-weight:600;white-space:nowrap}
+.overdue-action{color:var(--text2);font-size:.78rem}
+.overdue-text{color:#F85149!important}
+
+.pipeline-board{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:.75rem;margin-bottom:1.5rem;overflow-x:auto;
+}
+.pipeline-col{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;min-width:180px;
+}
+.pipeline-col-header{
+  padding:.65rem .8rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;
+}
+.pipeline-col-title{font-size:.78rem;font-weight:700;flex:1}
+.pipeline-col-count{
+  background:var(--surface3);border-radius:20px;
+  padding:1px 7px;font-size:.7rem;color:var(--text2);
+}
+.pipeline-col-value{font-size:.68rem;color:#FBBF24;width:100%}
+.pipeline-col-body{
+  padding:.5rem;display:flex;flex-direction:column;gap:.4rem;
+  min-height:80px;max-height:400px;overflow-y:auto;
+}
+.pipeline-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:7px;padding:.6rem .7rem;cursor:pointer;
+  transition:border-color .15s,transform .15s;
+  display:flex;flex-direction:column;gap:.2rem;
+}
+.pipeline-card:hover{border-color:rgba(124,58,237,.5);transform:translateX(-2px)}
+.pipeline-card.pipeline-overdue{border-color:rgba(218,54,51,.4);background:rgba(218,54,51,.05)}
+.pipeline-card-name{font-size:.82rem;font-weight:700;color:var(--text)}
+.pipeline-card-city{font-size:.72rem;color:var(--text3)}
+.pipeline-card-value{font-size:.78rem;color:#FBBF24;font-weight:600}
+.pipeline-card-next{font-size:.73rem;color:var(--text2)}
+.pipeline-card-date{font-size:.7rem;color:var(--text3)}
+.pipeline-empty-col{font-size:.75rem;color:var(--text3);padding:.4rem;text-align:center}
+
+.pipeline-analytics{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:.85rem;margin-top:.5rem;
+}
+.analytics-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:var(--r);padding:1rem;
+}
+.analytics-title{
+  font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;
+  color:var(--text2);margin-bottom:.75rem;
+}
+.obj-bars{display:flex;flex-direction:column;gap:.5rem}
+.obj-bar-row{display:flex;align-items:center;gap:.5rem;font-size:.78rem}
+.obj-bar-label{color:var(--text2);min-width:140px;text-align:right}
+.obj-bar-track{flex:1;height:6px;background:var(--surface3);border-radius:3px;overflow:hidden}
+.obj-bar-fill{height:100%;background:linear-gradient(90deg,#7C3AED,#58A6FF);border-radius:3px;transition:width .4s}
+.obj-bar-count{color:var(--text3);font-size:.72rem;width:20px;text-align:left}
+.best-pitch-name{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.25rem}
+.best-pitch-stat{font-size:.82rem;color:#3FB950}
+
+/* LIGHTBOX */
 .lightbox{
   display:none;position:fixed;inset:0;z-index:400;
   background:rgba(0,0,0,.95);align-items:center;justify-content:center;
@@ -725,8 +947,11 @@ body{
       <span class="nav-icon">◎</span>الإحصائيات
     </button>
     <div class="nav-section-label" style="margin-top:.5rem">المبيعات</div>
+    <button class="nav-item" id="nav-pipeline" onclick="navTo('pipeline')">
+      <span class="nav-icon">◫</span>لوحة الـ Pipeline
+    </button>
     <button class="nav-item" id="nav-called" onclick="navTo('called')">
-      <span class="nav-icon">◈</span>سجل المكالمات
+      <span class="nav-icon">◈</span>تم الاتصال
     </button>
     <button class="nav-item" id="nav-interested" onclick="navTo('interested')">
       <span class="nav-icon">◉</span>المهتمون
@@ -744,7 +969,7 @@ body{
   </nav>
   <div class="sidebar-footer">
     قرة دايركتوري · v2.0<br>
-    آخر تحديث: 2026-06-15 09:29
+    آخر تحديث: 2026-06-15 09:54
   </div>
 </aside>
 
@@ -859,9 +1084,12 @@ body{
   <!-- GRID -->
   <div id="grid"></div>
 
+  <!-- PIPELINE PAGE -->
+  <div id="pipeline-page"></div>
+
   <!-- FOOTER -->
   <footer class="main-footer">
-    تم جمع 1559 مركز &middot; آخر تحديث: 2026-06-15 09:29 &middot; مصدر البيانات: qurrah.sa
+    تم جمع 1559 مركز &middot; آخر تحديث: 2026-06-15 09:54 &middot; مصدر البيانات: qurrah.sa
   </footer>
 </div>
 
@@ -946,8 +1174,10 @@ function hashColor(s) {
 // ── Card builder ──
 function buildCard(d, idx) {
   const crm = CRM.get(d.id);
-  const crmStatus = crm?.status || 'not_called';
-  const crmCfg = STATUS_CONFIG[crmStatus] || {};
+  // Resolve stage: new records have .stage, legacy have .status
+  const _legacyMap = {not_called:'target',no_answer:'contacted',interested:'qualified',follow_up:'discovery',rejected:'lost',closed:'won'};
+  const crmStage = crm?.stage || (crm?.status ? (_legacyMap[crm.status]||'target') : 'target');
+  const crmCfg = STAGE_MAP[crmStage] || {label:'محددة'};
   const initials = (d.name_ar || '').slice(0, 2);
   const bgColor = hashColor(d.name_ar || '');
 
@@ -980,8 +1210,8 @@ function buildCard(d, idx) {
     ${d.phone ? `<div class="card-row"><a href="tel:${esc(d.phone)}" onclick="event.stopPropagation()" style="color:var(--text2);text-decoration:none">📞 <span class="card-phone">${esc(d.phone)}</span></a></div>` : ''}
     ${priceRow}
     <div class="crm-badge-row">
-      <span class="crm-dot crm-${crmStatus}" title="${crmCfg.label || 'لم يتم الاتصال'}"></span>
-      <span class="crm-badge-label">${crmCfg.label || 'لم يتم الاتصال'}</span>
+      <span class="crm-dot crm-${crmStage}" title="${crmCfg.label || ''}"></span>
+      <span class="crm-badge-label">${crmCfg.label || 'محددة'}</span>
       ${crm?.call_date ? `<span style="font-size:.67rem;color:var(--text3);margin-right:auto">${crm.call_date}</span>` : ''}
     </div>
   </div>
@@ -1102,11 +1332,12 @@ function applyFilter() {
     if (activeChips.has('has-svc') && d.svc_count < 1) return false;
     if (activeChips.has('rated')   && d.rcount < 1)    return false;
     if (needsCRM) {
-      const crmSt = crmSnap[d.id]?.status || 'not_called';
-      if (activeChips.has('crm-called')     && crmSt === 'not_called') return false;
-      if (activeChips.has('crm-interested') && crmSt !== 'interested' && crmSt !== 'closed') return false;
-      if (activeChips.has('crm-followup')   && crmSt !== 'follow_up') return false;
-      if (activeChips.has('crm-none')       && crmSt !== 'not_called') return false;
+      const rec  = crmSnap[d.id];
+      const crmSt = rec?.stage || (rec?.status ? ({not_called:'target',no_answer:'contacted',interested:'qualified',follow_up:'discovery',rejected:'lost',closed:'won'}[rec.status]||'target') : 'target');
+      if (activeChips.has('crm-called')     && crmSt === 'target') return false;
+      if (activeChips.has('crm-interested') && !['qualified','discovery','proposal','owner_in','contract','won'].includes(crmSt)) return false;
+      if (activeChips.has('crm-followup')   && !['discovery','proposal','owner_in','contract'].includes(crmSt)) return false;
+      if (activeChips.has('crm-none')       && crmSt !== 'target') return false;
     }
     return true;
   });
@@ -1126,9 +1357,10 @@ function applyFilter() {
 }
 
 function updateStatCalled() {
-  const s = CRM.stats();
+  const s  = CRM.stats();
   const el = document.getElementById('stat-called');
-  if (el) el.textContent = s.called;
+  if (el) el.textContent = s.won || 0;
+  updateCRMHeaderStats();
 }
 
 // ── Debounce helper ──
@@ -1151,46 +1383,67 @@ function setView(v) {
   document.getElementById('btn-list').classList.toggle('active', v === 'list');
 }
 
+// ── Show/hide main views ──
+function showMainView(view) {
+  // 'grid' or 'pipeline'
+  const gridEl     = document.getElementById('grid');
+  const pipelineEl = document.getElementById('pipeline-page');
+  const controls   = document.querySelector('.controls');
+  const statStrip  = document.querySelector('.stat-strip');
+  const chartsToggle = document.querySelector('.charts-toggle');
+  const chartsSection = document.getElementById('charts-section');
+
+  if (view === 'pipeline') {
+    gridEl.style.display     = 'none';
+    pipelineEl.style.display = 'block';
+    if (controls)      controls.style.display      = 'none';
+    if (statStrip)     statStrip.style.display      = 'none';
+    if (chartsToggle)  chartsToggle.style.display   = 'none';
+    if (chartsSection) chartsSection.style.display  = 'none';
+    buildPipeline();
+  } else {
+    gridEl.style.display     = '';
+    pipelineEl.style.display = 'none';
+    if (controls)      controls.style.display      = '';
+    if (statStrip)     statStrip.style.display      = '';
+    if (chartsToggle)  chartsToggle.style.display   = '';
+  }
+}
+
 // ── Sidebar nav ──
 function navTo(page) {
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  if (page === 'home') {
-    document.getElementById('nav-home').classList.add('active');
-    activeChips.forEach(c => activeChips.delete(c));
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    applyFilter();
-    grid.scrollIntoView({ behavior: 'smooth' });
-  } else if (page === 'charts') {
-    document.getElementById('nav-charts').classList.add('active');
-    const cs = document.getElementById('charts-section');
-    if (!cs.classList.contains('visible')) toggleCharts();
-    cs.scrollIntoView({ behavior: 'smooth' });
-  } else if (page === 'called') {
-    document.getElementById('nav-called').classList.add('active');
-    activeChips.clear();
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    const calledChip = document.querySelector('.chip[data-filter="crm-called"]');
-    if (calledChip) { activeChips.add('crm-called'); calledChip.classList.add('active'); }
-    applyFilter();
-    grid.scrollIntoView({ behavior: 'smooth' });
-  } else if (page === 'interested') {
-    document.getElementById('nav-interested').classList.add('active');
-    activeChips.clear();
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    const chip = document.querySelector('.chip[data-filter="crm-interested"]');
-    if (chip) { activeChips.add('crm-interested'); chip.classList.add('active'); }
-    applyFilter();
-    grid.scrollIntoView({ behavior: 'smooth' });
-  } else if (page === 'followup') {
-    document.getElementById('nav-followup').classList.add('active');
-    activeChips.clear();
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    const chip = document.querySelector('.chip[data-filter="crm-followup"]');
-    if (chip) { activeChips.add('crm-followup'); chip.classList.add('active'); }
-    applyFilter();
-    grid.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('nav-' + page)?.classList.add('active');
+
+  if (page === 'pipeline') {
+    showMainView('pipeline');
+  } else {
+    showMainView('grid');
+    if (page === 'home') {
+      activeChips.clear();
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      applyFilter();
+    } else if (page === 'charts') {
+      const cs = document.getElementById('charts-section');
+      if (!cs.classList.contains('visible')) toggleCharts();
+      cs.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // CRM filter pages
+      const chipMap = {
+        called:     'crm-called',
+        interested: 'crm-interested',
+        followup:   'crm-followup',
+      };
+      const chipFilter = chipMap[page];
+      if (chipFilter) {
+        activeChips.clear();
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        const chip = document.querySelector(`.chip[data-filter="${chipFilter}"]`);
+        if (chip) { activeChips.add(chipFilter); chip.classList.add('active'); }
+        applyFilter();
+      }
+    }
   }
-  // Close sidebar on mobile
   if (window.innerWidth <= 768) toggleSidebar();
 }
 
