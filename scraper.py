@@ -376,7 +376,7 @@ def build_html(branches: list, total: int, mode: str):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>دليل مراكز قرة</title>
+  <title>دليل ايفان لي الحضانات</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
@@ -898,7 +898,7 @@ def build_html(branches: list, total: int, mode: str):
 <body>
 
 <header>
-  <div class="header-logo">دليل مراكز قرة</div>
+  <div class="header-logo">دليل ايفان لي الحضانات</div>
   <p class="header-sub">مراكز رعاية الأطفال في المملكة العربية السعودية</p>
   <div class="stats-row">
     <div class="stat">
