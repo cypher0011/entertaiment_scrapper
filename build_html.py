@@ -369,7 +369,7 @@ body{{
   letter-spacing:-.3px;
 }}
 .sidebar-sub{{
-  font-size:.68rem;color:var(--text3);margin-top:.1rem;
+  font-size:.75rem;color:var(--text3);margin-top:.1rem;
   direction:rtl;text-align:right;padding-right:0;
 }}
 .sidebar-nav{{
@@ -377,13 +377,13 @@ body{{
 }}
 .nav-section-label{{
   padding:.65rem 1.25rem .3rem;
-  font-size:.6rem;font-weight:700;text-transform:uppercase;
+  font-size:.68rem;font-weight:700;text-transform:uppercase;
   letter-spacing:1px;color:var(--text3);direction:rtl;
 }}
 .nav-item{{
   display:flex;align-items:center;gap:.6rem;
   padding:.6rem 1rem .6rem 1.25rem;
-  font-size:.83rem;color:var(--text2);
+  font-size:.9rem;color:var(--text2);
   cursor:pointer;transition:all .15s;
   direction:rtl;text-align:right;
   border:none;background:none;width:100%;
@@ -447,7 +447,7 @@ body{{
   background:var(--surface2);
   border:1px solid var(--border);
   border-radius:var(--r);color:var(--text);
-  font-family:inherit;font-size:.9rem;outline:none;
+  font-family:inherit;font-size:1rem;outline:none;
   transition:border-color .2s,box-shadow .2s,background .2s;
 }}
 .search-input:focus{{
@@ -463,7 +463,7 @@ body{{
 .filter-select{{
   padding:.4rem .7rem;background:var(--surface2);
   border:1px solid var(--border);border-radius:var(--r-sm);
-  color:var(--text);font-family:inherit;font-size:.78rem;
+  color:var(--text);font-family:inherit;font-size:.86rem;
   outline:none;cursor:pointer;
   transition:border-color .15s,background .15s;
   direction:rtl;
@@ -475,7 +475,7 @@ body{{
   padding:0 0 .65rem;
 }}
 .chip{{
-  padding:.28rem .7rem;border-radius:20px;font-size:.7rem;font-weight:600;
+  padding:.32rem .8rem;border-radius:20px;font-size:.78rem;font-weight:600;
   background:transparent;border:1px solid var(--border);
   color:var(--text3);cursor:pointer;transition:all .15s;
   white-space:nowrap;user-select:none;letter-spacing:.2px;
@@ -488,8 +488,8 @@ body{{
   box-shadow:0 0 8px rgba(124,58,237,.15);
 }}
 .result-pill{{
-  font-size:.72rem;color:var(--text3);
-  padding:.22rem .6rem;background:var(--surface3);
+  font-size:.8rem;color:var(--text3);
+  padding:.28rem .7rem;background:var(--surface3);
   border-radius:20px;border:1px solid var(--border);
   white-space:nowrap;font-feature-settings:'tnum';
 }}
@@ -525,7 +525,7 @@ body{{
   transform:translateY(-1px);
 }}
 .stat-num{{
-  font-size:1.6rem;font-weight:800;
+  font-size:1.75rem;font-weight:800;
   font-family:'Inter',system-ui,sans-serif;
   color:var(--text);line-height:1;letter-spacing:-.5px;
 }}
@@ -533,20 +533,13 @@ body{{
 .stat-num.blue{{color:#60A5FA}}
 .stat-num.green{{color:#34D399}}
 .stat-num.gold{{color:#FBBF24}}
-.stat-label{{font-size:.65rem;color:var(--text3);margin-top:.3rem;letter-spacing:.3px}}
+.stat-label{{font-size:.72rem;color:var(--text3);margin-top:.3rem;letter-spacing:.3px}}
 
 /* CRM header stats */
 #crm-header-stats{{
   display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;
   padding:0 1.5rem .65rem;
 }}
-.crm-stat-chip{{
-  padding:.25rem .6rem;border-radius:20px;font-size:.72rem;
-  background:var(--surface2);border:1px solid var(--border);color:var(--text2);
-}}
-.crm-chip-green {{border-color:rgba(63,185,80,.3);color:#3FB950}}
-.crm-chip-blue  {{border-color:rgba(88,166,255,.3);color:#58A6FF}}
-.crm-chip-purple{{border-color:rgba(124,58,237,.3);color:#C4B5FD}}
 
 /* ── CHARTS ── */
 .charts-section{{
@@ -580,7 +573,7 @@ body{{
   border-radius:var(--r);padding:.9rem;
 }}
 .chart-title{{
-  font-size:.65rem;font-weight:700;color:var(--text3);
+  font-size:.72rem;font-weight:700;color:var(--text3);
   text-transform:uppercase;letter-spacing:1px;margin-bottom:.7rem;
   direction:rtl;
 }}
@@ -604,12 +597,7 @@ body{{
   transition:transform .2s cubic-bezier(.4,0,.2,1),border-color .2s,box-shadow .2s;
   animation:fadeInUp .3s ease both;
 }}
-.card:nth-child(1){{animation-delay:0s}}
-.card:nth-child(2){{animation-delay:.03s}}
-.card:nth-child(3){{animation-delay:.06s}}
-.card:nth-child(4){{animation-delay:.09s}}
-.card:nth-child(5){{animation-delay:.12s}}
-.card:nth-child(6){{animation-delay:.15s}}
+/* card animation only on initial load, not on filter */
 .card:hover{{
   transform:translateY(-4px);
   border-color:rgba(124,58,237,.45);
@@ -658,7 +646,7 @@ body{{
   position:absolute;bottom:8px;left:8px;z-index:1;
   background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
   border-radius:20px;padding:2px 8px;
-  font-size:.65rem;color:rgba(255,255,255,.85);
+  font-size:.72rem;color:rgba(255,255,255,.85);
   border:1px solid rgba(255,255,255,.08);
 }}
 .rating-badge{{
@@ -666,10 +654,10 @@ body{{
   background:rgba(0,0,0,.7);backdrop-filter:blur(8px);
   border-radius:20px;padding:3px 9px;
   display:flex;align-items:center;gap:4px;
-  font-size:.72rem;border:1px solid rgba(255,255,255,.08);
+  font-size:.8rem;border:1px solid rgba(255,255,255,.08);
 }}
 .badge{{
-  padding:2px 9px;border-radius:20px;font-size:.62rem;font-weight:700;
+  padding:3px 10px;border-radius:20px;font-size:.7rem;font-weight:700;
   backdrop-filter:blur(10px);letter-spacing:.3px;
 }}
 .badge-green {{background:rgba(35,134,54,.25);color:#3FB950;border:1px solid rgba(63,185,80,.35)}}
@@ -684,20 +672,20 @@ body{{
   direction:rtl;text-align:right;
 }}
 .card-name{{
-  font-size:.93rem;font-weight:700;line-height:1.35;color:var(--text);
+  font-size:1rem;font-weight:700;line-height:1.35;color:var(--text);
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
 }}
-.card-name-en{{font-size:.67rem;color:var(--text3);direction:ltr;text-align:left;margin-top:-2px}}
-.card-row{{display:flex;align-items:center;gap:.35rem;font-size:.77rem;color:var(--text2)}}
-.card-phone{{direction:ltr;display:inline;font-family:'Inter',monospace;font-size:.75rem}}
+.card-name-en{{font-size:.75rem;color:var(--text3);direction:ltr;text-align:left;margin-top:-2px}}
+.card-row{{display:flex;align-items:center;gap:.35rem;font-size:.85rem;color:var(--text2)}}
+.card-phone{{direction:ltr;display:inline;font-family:'Inter',monospace;font-size:.84rem}}
 .card-price{{
   margin-top:auto;padding-top:.45rem;border-top:1px solid var(--border);
-  font-size:.78rem;font-weight:700;
+  font-size:.86rem;font-weight:700;
   background:linear-gradient(90deg,#A78BFA,#60A5FA);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }}
-.stars{{color:#FBBF24;letter-spacing:1px;font-size:.78rem}}
-.rcount{{color:var(--text3);font-size:.67rem}}
+.stars{{color:#FBBF24;letter-spacing:1px;font-size:.85rem}}
+.rcount{{color:var(--text3);font-size:.75rem}}
 
 /* CRM dot on card */
 .crm-dot{{
@@ -712,10 +700,13 @@ body{{
 .crm-closed     {{background:#A371F7}}
 .crm-badge-row{{
   display:flex;align-items:center;gap:5px;
-  padding-top:.35rem;border-top:1px solid var(--border);
-  margin-top:.25rem;font-size:.72rem;color:var(--text2);
+  padding-top:.4rem;border-top:1px solid var(--border);
+  margin-top:.3rem;font-size:.82rem;color:var(--text2);
 }}
-.crm-badge-label{{font-size:.7rem}}
+.crm-badge-label{{font-size:.78rem}}
+
+.card.hidden{{display:none!important}}
+.hidden{{display:none!important}}
 
 /* ── EMPTY STATE ── */
 .empty-state{{
@@ -795,13 +786,13 @@ body{{
 
 /* Modal header */
 .modal-header{{display:flex;flex-direction:column;gap:.3rem}}
-.modal-name{{font-size:1.3rem;font-weight:800;line-height:1.3;letter-spacing:-.3px}}
-.modal-name-en{{font-size:.77rem;color:var(--text3);direction:ltr;text-align:left}}
+.modal-name{{font-size:1.45rem;font-weight:800;line-height:1.3;letter-spacing:-.4px}}
+.modal-name-en{{font-size:.85rem;color:var(--text3);direction:ltr;text-align:left}}
 .modal-badges{{display:flex;gap:5px;flex-wrap:wrap;margin-top:.25rem}}
 .modal-rating{{display:flex;align-items:center;gap:6px;margin-top:.15rem}}
 
 .section-title{{
-  font-size:.6rem;font-weight:700;letter-spacing:1.5px;
+  font-size:.68rem;font-weight:700;letter-spacing:1.5px;
   text-transform:uppercase;
   color:transparent;
   background:linear-gradient(90deg,var(--accent),var(--border-active));
@@ -815,7 +806,7 @@ body{{
 .contact-btn{{
   display:inline-flex;align-items:center;gap:5px;
   padding:.45rem .8rem;border-radius:20px;
-  font-size:.78rem;font-weight:500;text-decoration:none;
+  font-size:.86rem;font-weight:500;text-decoration:none;
   border:1px solid var(--border);background:var(--surface2);color:var(--text2);
   transition:all .15s;font-family:inherit;cursor:pointer;
 }}
@@ -832,9 +823,9 @@ body{{
 /* Info grid */
 .info-grid{{display:grid;grid-template-columns:1fr 1fr;gap:.55rem .9rem}}
 .info-row{{display:flex;flex-direction:column;gap:1px}}
-.info-label{{font-size:.62rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px}}
-.info-val{{font-size:.85rem;color:var(--text)}}
-.info-sub{{font-size:.7rem;color:var(--text3)}}
+.info-label{{font-size:.7rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px}}
+.info-val{{font-size:.92rem;color:var(--text)}}
+.info-sub{{font-size:.77rem;color:var(--text3)}}
 
 /* Map embed */
 .map-embed{{border-radius:var(--r-sm);overflow:hidden;height:200px;border:1px solid var(--border);margin-top:.65rem}}
@@ -847,8 +838,8 @@ body{{
   border-radius:var(--r-sm);padding:.75rem;
   display:flex;flex-direction:column;gap:.3rem;
 }}
-.svc-name{{font-weight:700;font-size:.85rem}}
-.svc-meta{{font-size:.74rem;color:var(--text2)}}
+.svc-name{{font-weight:700;font-size:.92rem}}
+.svc-meta{{font-size:.82rem;color:var(--text2)}}
 .svc-prices{{margin-top:.25rem;display:flex;flex-wrap:wrap;gap:3px}}
 .price-tag{{
   background:rgba(124,58,237,.15);color:#C4B5FD;
@@ -857,7 +848,7 @@ body{{
 }}
 .price-period{{font-weight:400;font-size:.67rem;opacity:.7}}
 
-.desc-text{{color:var(--text2);font-size:.85rem;line-height:1.8}}
+.desc-text{{color:var(--text2);font-size:.92rem;line-height:1.8}}
 
 /* ── CRM Panel ── */
 .crm-panel{{
@@ -867,29 +858,94 @@ body{{
 }}
 .crm-row{{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}}
 .crm-field{{display:flex;flex-direction:column;gap:.25rem}}
-.crm-label{{font-size:.62rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px}}
+.crm-label{{font-size:.7rem;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:.5px}}
 .crm-select,.crm-input,.crm-textarea{{
   background:var(--surface3);border:1px solid var(--border);
   border-radius:6px;color:var(--text);font-family:inherit;
-  font-size:.82rem;padding:.45rem .65rem;outline:none;
+  font-size:.9rem;padding:.5rem .7rem;outline:none;
   transition:border-color .2s;
 }}
 .crm-select:focus,.crm-input:focus,.crm-textarea:focus{{border-color:var(--accent)}}
 .crm-textarea{{min-height:70px;resize:vertical;line-height:1.6}}
 .crm-actions{{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}}
 .crm-save-btn{{
-  padding:.45rem 1rem;border-radius:var(--r-sm);font-family:inherit;font-size:.82rem;font-weight:700;
+  padding:.5rem 1.1rem;border-radius:var(--r-sm);font-family:inherit;font-size:.88rem;font-weight:700;
   background:rgba(124,58,237,.2);border:1px solid rgba(124,58,237,.4);
   color:#C4B5FD;cursor:pointer;transition:all .15s;
 }}
 .crm-save-btn:hover{{background:rgba(124,58,237,.35)}}
 .crm-clear-btn{{
-  padding:.45rem .8rem;border-radius:var(--r-sm);font-family:inherit;font-size:.8rem;
+  padding:.5rem .9rem;border-radius:var(--r-sm);font-family:inherit;font-size:.86rem;
   background:rgba(218,54,51,.1);border:1px solid rgba(218,54,51,.25);
   color:#F85149;cursor:pointer;transition:all .15s;
 }}
 .crm-clear-btn:hover{{background:rgba(218,54,51,.2)}}
-.crm-updated{{font-size:.68rem;color:var(--text3);margin-right:auto}}
+.crm-updated{{font-size:.76rem;color:var(--text3);margin-right:auto}}
+
+/* ── PITCH TOGGLE BUTTONS ── */
+.pitch-toggle-group{{
+  display:flex;flex-wrap:wrap;gap:.45rem;
+  margin-top:.35rem;
+}}
+.pitch-toggle-btn{{
+  padding:.45rem 1rem;border-radius:8px;
+  font-family:inherit;font-size:.85rem;font-weight:600;
+  cursor:pointer;transition:all .18s;
+  background:var(--surface3);
+  border:1px solid var(--border);
+  color:var(--text2);
+  user-select:none;
+}}
+.pitch-toggle-btn:hover{{
+  border-color:var(--text2);color:var(--text);
+}}
+.pitch-toggle-btn.active{{
+  background:rgba(124,58,237,.22);
+  border-color:rgba(124,58,237,.6);
+  color:#C4B5FD;
+  box-shadow:0 0 10px rgba(124,58,237,.2);
+}}
+
+/* ── PITCH MANAGER ── */
+.crm-pitch-manage-btn{{
+  background:var(--surface3);border:1px solid var(--border);
+  color:var(--text3);width:34px;height:34px;border-radius:7px;
+  cursor:pointer;font-size:1rem;transition:all .15s;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+}}
+.crm-pitch-manage-btn:hover{{border-color:var(--accent);color:var(--accent)}}
+.pm-row{{
+  display:flex;gap:.4rem;align-items:center;
+}}
+.pm-input{{
+  flex:1;padding:.45rem .7rem;
+  background:var(--surface3);border:1px solid var(--border);
+  border-radius:7px;color:var(--text);font-family:inherit;
+  font-size:.88rem;outline:none;transition:border-color .2s;
+  direction:rtl;
+}}
+.pm-input:focus{{border-color:var(--accent)}}
+.pm-del-btn{{
+  background:none;border:1px solid transparent;
+  color:var(--text3);width:28px;height:28px;border-radius:6px;
+  cursor:pointer;font-size:.8rem;transition:all .15s;flex-shrink:0;
+}}
+.pm-del-btn:hover{{background:rgba(218,54,51,.15);border-color:rgba(218,54,51,.3);color:#F85149}}
+.pm-stat-row{{
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:.85rem;color:var(--text2);
+  padding:.35rem .5rem;border-radius:7px;
+  background:var(--surface3);border:1px solid var(--border);
+  direction:rtl;
+}}
+.crm-stat-chip{{
+  padding:.28rem .7rem;border-radius:20px;font-size:.78rem;
+  background:var(--surface2);border:1px solid var(--border);color:var(--text2);
+}}
+.crm-chip-green {{border-color:rgba(63,185,80,.3);color:#3FB950}}
+.crm-chip-blue  {{border-color:rgba(88,166,255,.3);color:#60A5FA}}
+.crm-chip-purple{{border-color:rgba(124,58,237,.3);color:#C4B5FD}}
+.crm-chip-gold  {{border-color:rgba(210,153,34,.3);color:#FBBF24}}
 
 /* ── LIGHTBOX ── */
 .lightbox{{
@@ -1220,13 +1276,54 @@ function buildCard(d, idx) {{
 </div>`;
 }}
 
-// ── Render grid ──
-function renderGrid(items) {{
-  const html = items.map((d, i) => buildCard(d, d._origIdx)).join('');
-  grid.innerHTML = html || emptyState();
+// ── Pre-render ALL cards once into the DOM ──
+// Filter = toggle .hidden class only. Zero re-render on filter/sort.
+const CARD_ELS = []; // indexed by origIdx
+
+function initGrid() {{
+  const frag = document.createDocumentFragment();
+  const emptyDiv = document.createElement('div');
+  emptyDiv.id = 'empty-state';
+  emptyDiv.className = 'empty-state hidden';
+  emptyDiv.innerHTML = `<span class="e-icon">🔍</span><h3>لا توجد نتائج</h3><p>جرب تغيير الفلتر أو كلمة البحث</p>`;
+
+  ALL.forEach((d, i) => {{
+    const html = buildCard(d, i);
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const el = tmp.firstElementChild;
+    CARD_ELS[i] = el;
+    frag.appendChild(el);
+  }});
+
+  frag.appendChild(emptyDiv);
+  grid.appendChild(frag);
 }}
-function emptyState() {{
-  return `<div class="empty-state"><span class="e-icon">🔍</span><h3>لا توجد نتائج</h3><p>جرب تغيير الفلتر أو كلمة البحث</p></div>`;
+
+function renderGrid(items) {{
+  // Build a Set of visible origIdx for O(1) lookup
+  const visibleSet = new Set(items.map(d => d._origIdx));
+  let visibleCount = 0;
+
+  CARD_ELS.forEach((el, i) => {{
+    if (visibleSet.has(i)) {{
+      el.classList.remove('hidden');
+      visibleCount++;
+    }} else {{
+      el.classList.add('hidden');
+    }}
+  }});
+
+  // Sorting: reorder DOM nodes in place
+  const sort = document.getElementById('sort-select').value;
+  if (sort !== 'default') {{
+    const parent = grid;
+    const emptyEl = document.getElementById('empty-state');
+    items.forEach(d => parent.insertBefore(CARD_ELS[d._origIdx], emptyEl));
+  }}
+
+  const emptyEl = document.getElementById('empty-state');
+  if (emptyEl) emptyEl.classList.toggle('hidden', visibleCount > 0);
 }}
 
 // ── Populate filters ──
@@ -1270,39 +1367,44 @@ function toggleChip(el) {{
 
 // ── Filter + Sort ──
 function applyFilter() {{
-  const q = document.getElementById('search').value.trim().toLowerCase();
+  const q      = document.getElementById('search').value.trim().toLowerCase();
   const region = regionSel.value;
-  const city = citySel.value;
-  const sub = subSel.value;
+  const city   = citySel.value;
+  const sub    = subSel.value;
   const accred = document.getElementById('accred-filter').value;
-  const sort = document.getElementById('sort-select').value;
+  const sort   = document.getElementById('sort-select').value;
+
+  // Snapshot CRM data once — avoids 1559x localStorage reads inside the loop
+  const needsCRM = activeChips.has('crm-called') || activeChips.has('crm-interested') ||
+                   activeChips.has('crm-followup') || activeChips.has('crm-none');
+  const crmSnap  = needsCRM ? CRM.getAll() : null;
 
   let result = ALL.map((d, i) => ({{...d, _origIdx: i}})).filter(d => {{
     if (q && !d.name_ar.toLowerCase().includes(q) && !(d.name_en || '').toLowerCase().includes(q)
            && !d.city_ar.includes(q) && !d.region_ar.includes(q)) return false;
     if (region && d.region_ar !== region) return false;
-    if (city && d.city_ar !== city) return false;
-    if (sub && d.sub_ar !== sub) return false;
-    if (accred && d.accred !== accred) return false;
+    if (city   && d.city_ar   !== city)   return false;
+    if (sub    && d.sub_ar    !== sub)     return false;
+    if (accred && d.accred    !== accred)  return false;
     if (activeChips.has('has-img') && d.img_count < 1) return false;
     if (activeChips.has('has-svc') && d.svc_count < 1) return false;
-    if (activeChips.has('rated') && d.rcount < 1) return false;
-    // CRM chips
-    const crmRec = CRM.get(d.id);
-    const crmSt = crmRec?.status || 'not_called';
-    if (activeChips.has('crm-called') && crmSt === 'not_called') return false;
-    if (activeChips.has('crm-interested') && crmSt !== 'interested' && crmSt !== 'closed') return false;
-    if (activeChips.has('crm-followup') && crmSt !== 'follow_up') return false;
-    if (activeChips.has('crm-none') && crmSt !== 'not_called') return false;
+    if (activeChips.has('rated')   && d.rcount < 1)    return false;
+    if (needsCRM) {{
+      const crmSt = crmSnap[d.id]?.status || 'not_called';
+      if (activeChips.has('crm-called')     && crmSt === 'not_called') return false;
+      if (activeChips.has('crm-interested') && crmSt !== 'interested' && crmSt !== 'closed') return false;
+      if (activeChips.has('crm-followup')   && crmSt !== 'follow_up') return false;
+      if (activeChips.has('crm-none')       && crmSt !== 'not_called') return false;
+    }}
     return true;
   }});
 
-  if (sort === 'rating-desc') result.sort((a, b) => b.rating - a.rating);
-  if (sort === 'rating-asc') result.sort((a, b) => a.rating - b.rating);
+  if (sort === 'rating-desc')  result.sort((a, b) => b.rating - a.rating);
+  if (sort === 'rating-asc')   result.sort((a, b) => a.rating - b.rating);
   if (sort === 'reviews-desc') result.sort((a, b) => b.rcount - a.rcount);
-  if (sort === 'name-asc') result.sort((a, b) => a.name_ar.localeCompare(b.name_ar, 'ar'));
-  if (sort === 'price-asc') result.sort((a, b) => (a.min_price || 99999) - (b.min_price || 99999));
-  if (sort === 'price-desc') result.sort((a, b) => (b.min_price || 0) - (a.min_price || 0));
+  if (sort === 'name-asc')     result.sort((a, b) => a.name_ar.localeCompare(b.name_ar, 'ar'));
+  if (sort === 'price-asc')    result.sort((a, b) => (a.min_price || 99999) - (b.min_price || 99999));
+  if (sort === 'price-desc')   result.sort((a, b) => (b.min_price || 0) - (a.min_price || 0));
 
   currentData = result;
   renderGrid(result);
@@ -1317,8 +1419,15 @@ function updateStatCalled() {{
   if (el) el.textContent = s.called;
 }}
 
+// ── Debounce helper ──
+function debounce(fn, ms) {{
+  let t;
+  return (...args) => {{ clearTimeout(t); t = setTimeout(() => fn(...args), ms); }};
+}}
+const debouncedFilter = debounce(applyFilter, 120);
+
 // ── Event listeners ──
-document.getElementById('search').addEventListener('input', applyFilter);
+document.getElementById('search').addEventListener('input', debouncedFilter);
 document.getElementById('city-filter').addEventListener('change', applyFilter);
 document.getElementById('sub-filter').addEventListener('change', applyFilter);
 document.getElementById('accred-filter').addEventListener('change', applyFilter);
@@ -1552,7 +1661,8 @@ function exportCSV() {{
 }}
 
 // ── Initial render ──
-onRegionChange();
+initGrid();        // pre-build all 1559 card DOM nodes once
+onRegionChange();  // populate city dropdown + first filter pass
 updateStatCalled();
 
 // ── Charts (lazy, wrapped in try/catch) ──
