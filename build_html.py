@@ -197,6 +197,8 @@ def build_card_data(b):
         "thumb_url": thumb_url,
         "svc_count": len(services),
         "created": created,
+        "lat": str(lat),
+        "lng": str(lng),
     }
     modal = {
         "id": bid,
@@ -296,6 +298,11 @@ def build_html(branches):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <script src="crm.js"></script>
 <style>
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
@@ -678,6 +685,48 @@ body{{
 .card-name-en{{font-size:.75rem;color:var(--text3);direction:ltr;text-align:left;margin-top:-2px}}
 .card-row{{display:flex;align-items:center;gap:.35rem;font-size:.85rem;color:var(--text2)}}
 .card-phone{{direction:ltr;display:inline;font-family:'Inter',monospace;font-size:.84rem}}
+.card-phone-row{{display:flex;align-items:center;gap:.35rem;font-size:.85rem;color:var(--text2)}}
+.phone-quick{{display:flex;gap:.2rem;margin-right:auto;flex-shrink:0}}
+.phone-quick-btn{{
+  background:transparent;border:1px solid var(--border);border-radius:6px;
+  color:var(--text3);font-size:.7rem;padding:1px 6px;cursor:pointer;
+  transition:all .15s;line-height:1.6;
+}}
+.phone-quick-btn:hover{{border-color:var(--accent);color:var(--accent);background:rgba(124,58,237,.08)}}
+.phone-quick-btn.wa:hover{{border-color:#25D366;color:#25D366;background:rgba(37,211,102,.08)}}
+
+/* ── MAP VIEW ── */
+#map-view{{
+  display:none;position:relative;
+  width:100%;height:calc(100vh - 56px);
+}}
+#map-view.active{{display:block}}
+.leaflet-container{{background:#0D1117}}
+.map-popup{{direction:rtl;text-align:right;min-width:180px}}
+.map-popup .mp-name{{font-weight:700;font-size:.95rem;margin-bottom:4px;color:#E6EDF3}}
+.map-popup .mp-city{{font-size:.8rem;color:#8B949E;margin-bottom:6px}}
+.map-popup .mp-btns{{display:flex;gap:6px;flex-wrap:wrap}}
+.map-popup .mp-btn{{
+  font-size:.75rem;padding:3px 10px;border-radius:20px;cursor:pointer;
+  border:none;background:rgba(124,58,237,.2);color:#C4B5FD;text-decoration:none;
+}}
+.map-popup .mp-btn.wa{{background:rgba(37,211,102,.15);color:#25D366}}
+.map-popup .mp-btn.detail{{background:rgba(88,166,255,.15);color:#60A5FA}}
+.map-count-badge{{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  background:rgba(13,17,23,.85);backdrop-filter:blur(10px);
+  border:1px solid var(--border);border-radius:20px;
+  padding:6px 18px;font-size:.85rem;color:var(--text2);
+  z-index:1000;pointer-events:none;
+}}
+.dark-popup .leaflet-popup-content-wrapper{{
+  background:#161B22;color:#E6EDF3;border:1px solid #30363D;
+  border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.5);
+}}
+.dark-popup .leaflet-popup-tip{{background:#161B22}}
+.dark-popup .leaflet-popup-close-button{{color:#8B949E}}
+.dark-popup .leaflet-popup-close-button:hover{{color:#E6EDF3}}
+
 .card-price{{
   margin-top:auto;padding-top:.45rem;border-top:1px solid var(--border);
   font-size:.86rem;font-weight:700;
@@ -1236,6 +1285,9 @@ body{{
     <button class="nav-item" id="nav-charts" onclick="navTo('charts')">
       <span class="nav-icon">◎</span>الإحصائيات
     </button>
+    <button class="nav-item" id="nav-map" onclick="navTo('map')">
+      <span class="nav-icon">◉</span>خريطة المراكز
+    </button>
     <div class="nav-section-label" style="margin-top:.5rem">المبيعات</div>
     <button class="nav-item" id="nav-pipeline" onclick="navTo('pipeline')">
       <span class="nav-icon">◫</span>لوحة الـ Pipeline
@@ -1301,6 +1353,7 @@ body{{
       <div class="view-btns">
         <button class="view-btn active" id="btn-grid" onclick="setView('grid')" title="شبكة">⊞</button>
         <button class="view-btn" id="btn-list" onclick="setView('list')" title="قائمة">☰</button>
+        <button class="view-btn" id="btn-map" onclick="setView('map')" title="خريطة">⬡</button>
       </div>
       <span class="result-pill" id="result-pill">{total} نتيجة</span>
     </div>
@@ -1373,6 +1426,12 @@ body{{
 
   <!-- GRID -->
   <div id="grid"></div>
+
+  <!-- MAP VIEW -->
+  <div id="map-view">
+    <div id="leaflet-map" style="width:100%;height:100%"></div>
+    <div class="map-count-badge" id="map-count-badge"></div>
+  </div>
 
   <!-- PIPELINE PAGE -->
   <div id="pipeline-page"></div>
@@ -1494,7 +1553,13 @@ function buildCard(d, idx) {{
     <div class="card-name">${{esc(d.name_ar)}}</div>
     ${{d.name_en ? `<div class="card-name-en">${{esc(d.name_en)}}</div>` : ''}}
     <div class="card-row">📍 ${{esc(d.city_ar)}}${{d.region_ar && d.region_ar !== d.city_ar ? '، ' + esc(d.region_ar) : ''}}</div>
-    ${{d.phone ? `<div class="card-row"><a href="tel:${{esc(d.phone)}}" onclick="event.stopPropagation()" style="color:var(--text2);text-decoration:none">📞 <span class="card-phone">${{esc(d.phone)}}</span></a></div>` : ''}}
+    ${{d.phone ? `<div class="card-phone-row">
+      <a href="tel:${{esc(d.phone)}}" onclick="event.stopPropagation()" style="color:var(--text2);text-decoration:none;display:flex;align-items:center;gap:.35rem">📞 <span class="card-phone">${{esc(d.phone)}}</span></a>
+      <div class="phone-quick">
+        <button class="phone-quick-btn" onclick="event.stopPropagation();copyPhone('${{esc(d.phone)}}')" title="نسخ الرقم">نسخ</button>
+        <a class="phone-quick-btn wa" href="https://wa.me/${{d.phone.replace(/\\D/g,'')}}" target="_blank" onclick="event.stopPropagation()" title="واتساب">WA</a>
+      </div>
+    </div>` : ''}}
     ${{priceRow}}
     <div class="crm-badge-row">
       <span class="crm-dot crm-${{crmStage}}" title="${{crmCfg.label || ''}}"></span>
@@ -1640,6 +1705,7 @@ function applyFilter() {{
   renderGrid(result);
   document.getElementById('shown-count').textContent = result.length;
   document.getElementById('result-pill').textContent = result.length + ' نتيجة';
+  if (document.getElementById('map-view').classList.contains('active')) updateMap(result);
   updateStatCalled();
 }}
 
@@ -1663,34 +1729,112 @@ document.getElementById('city-filter').addEventListener('change', applyFilter);
 document.getElementById('sub-filter').addEventListener('change', applyFilter);
 document.getElementById('accred-filter').addEventListener('change', applyFilter);
 
+// ── Copy phone ──
+function copyPhone(phone) {{
+  navigator.clipboard.writeText(phone).then(() => {{
+    const toast = document.createElement('div');
+    toast.textContent = 'تم النسخ ✓';
+    toast.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:rgba(35,134,54,.9);color:#fff;padding:8px 20px;border-radius:20px;font-size:.85rem;z-index:9999;pointer-events:none;transition:opacity .4s';
+    document.body.appendChild(toast);
+    setTimeout(() => {{ toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }}, 1500);
+  }});
+}}
+
 // ── View toggle ──
 function setView(v) {{
-  grid.className = v === 'list' ? 'list-view' : '';
+  const mapView = document.getElementById('map-view');
+  if (v === 'map') {{
+    grid.style.display = 'none';
+    mapView.classList.add('active');
+    initMap();
+    updateMap(currentData);
+  }} else {{
+    grid.style.display = '';
+    mapView.classList.remove('active');
+    grid.className = v === 'list' ? 'list-view' : '';
+  }}
   document.getElementById('btn-grid').classList.toggle('active', v === 'grid');
   document.getElementById('btn-list').classList.toggle('active', v === 'list');
+  document.getElementById('btn-map').classList.toggle('active', v === 'map');
+}}
+
+// ── Map ──
+let _map = null, _markers = null;
+
+function initMap() {{
+  if (_map) return;
+  _map = L.map('leaflet-map', {{
+    center: [24.7, 46.7],
+    zoom: 6,
+    preferCanvas: true,
+  }});
+  L.tileLayer('https://{{s}}.basemaps.cartocdn.com/dark_all/{{z}}/{{x}}/{{y}}{{r}}.png', {{
+    attribution: '© OpenStreetMap © CARTO',
+    subdomains: 'abcd', maxZoom: 19
+  }}).addTo(_map);
+  _markers = L.markerClusterGroup({{ maxClusterRadius: 50, chunkedLoading: true }});
+  _map.addLayer(_markers);
+}}
+
+function updateMap(data) {{
+  if (!_map) return;
+  _markers.clearLayers();
+  let count = 0;
+  data.forEach(d => {{
+    const lat = parseFloat(d.lat), lng = parseFloat(d.lng);
+    if (!lat || !lng || isNaN(lat) || isNaN(lng)) return;
+    count++;
+    const phone = d.phone || '';
+    const waLink = phone ? `<a class="mp-btn wa" href="https://wa.me/${{phone.replace(/\\D/g,'')}}" target="_blank">واتساب</a>` : '';
+    const phoneLink = phone ? `<a class="mp-btn" href="tel:${{phone}}">${{phone}}</a>` : '';
+    const popup = `<div class="map-popup">
+      <div class="mp-name">${{d.name_ar || ''}}</div>
+      <div class="mp-city">${{d.city_ar || ''}}</div>
+      <div class="mp-btns">
+        ${{phoneLink}}${{waLink}}
+        <button class="mp-btn detail" onclick="openDrawer(${{d._origIdx ?? 0}})">تفاصيل</button>
+      </div>
+    </div>`;
+    L.circleMarker([lat, lng], {{
+      radius: 7, fillColor: '#7C3AED', color: '#C4B5FD',
+      weight: 1.5, opacity: 0.9, fillOpacity: 0.75
+    }}).bindPopup(popup, {{ maxWidth: 240, className: 'dark-popup' }}).addTo(_markers);
+  }});
+  document.getElementById('map-count-badge').textContent = `${{count}} مركز على الخريطة`;
 }}
 
 // ── Show/hide main views ──
 function showMainView(view) {{
-  // 'grid' or 'pipeline'
+  // 'grid', 'pipeline', or 'map'
   const gridEl     = document.getElementById('grid');
+  const mapView    = document.getElementById('map-view');
   const pipelineEl = document.getElementById('pipeline-page');
   const controls   = document.querySelector('.controls');
   const statStrip  = document.querySelector('.stat-strip');
   const chartsToggle = document.querySelector('.charts-toggle');
   const chartsSection = document.getElementById('charts-section');
 
+  gridEl.style.display     = 'none';
+  mapView.classList.remove('active');
+  pipelineEl.style.display = 'none';
+
   if (view === 'pipeline') {{
-    gridEl.style.display     = 'none';
     pipelineEl.style.display = 'block';
     if (controls)      controls.style.display      = 'none';
     if (statStrip)     statStrip.style.display      = 'none';
     if (chartsToggle)  chartsToggle.style.display   = 'none';
     if (chartsSection) chartsSection.style.display  = 'none';
     buildPipeline();
+  }} else if (view === 'map') {{
+    mapView.classList.add('active');
+    if (controls)      controls.style.display      = '';
+    if (statStrip)     statStrip.style.display      = 'none';
+    if (chartsToggle)  chartsToggle.style.display   = 'none';
+    if (chartsSection) chartsSection.style.display  = 'none';
+    initMap();
+    updateMap(currentData);
   }} else {{
     gridEl.style.display     = '';
-    pipelineEl.style.display = 'none';
     if (controls)      controls.style.display      = '';
     if (statStrip)     statStrip.style.display      = '';
     if (chartsToggle)  chartsToggle.style.display   = '';
@@ -1704,6 +1848,8 @@ function navTo(page) {{
 
   if (page === 'pipeline') {{
     showMainView('pipeline');
+  }} else if (page === 'map') {{
+    showMainView('map');
   }} else {{
     showMainView('grid');
     if (page === 'home') {{
@@ -1797,7 +1943,10 @@ async function openDrawer(idx) {{
 
   // Contact buttons
   const btns = [];
-  if (d.phone) btns.push(`<a href="tel:${{d.phone}}" class="contact-btn phone" onclick="event.stopPropagation()">📞 ${{esc(d.phone)}}</a>`);
+  if (d.phone) {{
+    btns.push(`<a href="tel:${{d.phone}}" class="contact-btn phone" onclick="event.stopPropagation()">📞 ${{esc(d.phone)}}</a>`);
+    btns.push(`<a href="https://wa.me/${{d.phone.replace(/\\D/g,'')}}" target="_blank" class="contact-btn" style="border-color:rgba(37,211,102,.3);color:#25D366" onclick="event.stopPropagation()">💬 واتساب</a>`);
+  }}
   if (d.email) btns.push(`<a href="mailto:${{d.email}}" class="contact-btn email">✉ ${{esc(d.email)}}</a>`);
   if (d.maps_url) btns.push(`<a href="${{d.maps_url}}" target="_blank" class="contact-btn maps">📍 خريطة</a>`);
   if (d.branch_url) btns.push(`<a href="${{d.branch_url}}" target="_blank" class="contact-btn web">🔗 صفحة المركز</a>`);
