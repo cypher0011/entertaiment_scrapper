@@ -11,13 +11,14 @@
 // PIPELINE STAGES (outcome-based, not activity)
 // ─────────────────────────────────────────────
 const PIPELINE_STAGES = [
-  { id: "target",    label: "🎯 محددة",             label_en: "Target",          color: "#484F58", prob: 5  },
-  { id: "contacted", label: "📞 تم التواصل",          label_en: "Contacted",       color: "#D29922", prob: 10 },
-  { id: "qualified", label: "✅ مؤهلة (BANT)",        label_en: "Qualified",       color: "#58A6FF", prob: 20 },
-  { id: "discovery", label: "🔍 اكتشاف مكتمل",        label_en: "Discovery Done",  color: "#A371F7", prob: 35 },
-  { id: "proposal",  label: "📋 عرض مقدم",            label_en: "Proposal Sent",   color: "#F78166", prob: 50 },
-  { id: "owner_in",  label: "👤 المالك موافق مبدئياً", label_en: "Owner Buy-in",    color: "#3FB950", prob: 65 },
-  { id: "contract",  label: "📄 عقد/فاتورة مرسلة",    label_en: "Contract Out",    color: "#3FB950", prob: 80 },
+  { id: "target",      label: "🎯 محددة",             label_en: "Target",          color: "#484F58", prob: 5  },
+  { id: "contacted",   label: "📞 تم التواصل",          label_en: "Contacted",       color: "#D29922", prob: 10 },
+  { id: "no_answer",   label: "🔇 ما رد",              label_en: "No Answer",       color: "#6E40C9", prob: 10 },
+  { id: "qualified",   label: "✅ مؤهلة (BANT)",        label_en: "Qualified",       color: "#58A6FF", prob: 20 },
+  { id: "discovery",   label: "🔍 اكتشاف مكتمل",        label_en: "Discovery Done",  color: "#A371F7", prob: 35 },
+  { id: "proposal",    label: "📋 عرض مقدم",            label_en: "Proposal Sent",   color: "#F78166", prob: 50 },
+  { id: "owner_in",    label: "👤 المالك موافق مبدئياً", label_en: "Owner Buy-in",    color: "#3FB950", prob: 65 },
+  { id: "contract",    label: "📄 عقد/فاتورة مرسلة",    label_en: "Contract Out",    color: "#3FB950", prob: 80 },
   { id: "won",       label: "🏆 مغلق — دفعوا",        label_en: "Closed Won",      color: "#3FB950", prob: 100 },
   { id: "lost",      label: "❌ خسرنا",               label_en: "Closed Lost",     color: "#DA3633", prob: 0  },
 ];
@@ -90,7 +91,15 @@ const CRM = {
     try { return JSON.parse(localStorage.getItem(this._key) || "{}"); }
     catch { return {}; }
   },
-  _save(data) { localStorage.setItem(this._key, JSON.stringify(data)); },
+  _save(data) {
+    localStorage.setItem(this._key, JSON.stringify(data));
+    // Auto-backup to file via server (silent, non-blocking)
+    fetch("/save-crm", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    }).catch(() => {}); // silent if server not running
+  },
 
   get(branchId) {
     const rec = this._load()[branchId];
@@ -166,7 +175,14 @@ const CRM = {
       return Array.isArray(stored) && stored.length ? stored : [...DEFAULT_PITCHES];
     } catch { return [...DEFAULT_PITCHES]; }
   },
-  savePitches(p) { localStorage.setItem(this._pitchesKey, JSON.stringify(p)); },
+  savePitches(p) {
+    localStorage.setItem(this._pitchesKey, JSON.stringify(p));
+    fetch("/save-pitches", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(p),
+    }).catch(() => {});
+  },
   addPitch(name) {
     const p = this.getPitches();
     const id = "p" + Date.now();
@@ -913,4 +929,30 @@ function _removeOverlay(id) {
   document.getElementById(id)?.remove();
 }
 
-document.addEventListener("DOMContentLoaded", updateCRMHeaderStats);
+// ── Auto-restore from file backup if localStorage is empty ──
+async function restoreFromBackup() {
+  try {
+    const existing = localStorage.getItem("qurrah_crm");
+    if (!existing || existing === "{}") {
+      const r = await fetch("/load-crm", { method: "POST", body: "" });
+      if (r.ok) {
+        const text = await r.text();
+        if (text && text !== "{}") {
+          localStorage.setItem("qurrah_crm", text);
+          console.log("✅ CRM restored from backup");
+        }
+      }
+    }
+    const existingP = localStorage.getItem("qurrah_crm_pitches");
+    if (!existingP) {
+      const r2 = await fetch("/load-pitches", { method: "POST", body: "" });
+      if (r2.ok) {
+        const text2 = await r2.text();
+        if (text2) localStorage.setItem("qurrah_crm_pitches", text2);
+      }
+    }
+  } catch (e) {} // silent — server not running
+  updateCRMHeaderStats();
+}
+
+document.addEventListener("DOMContentLoaded", restoreFromBackup);

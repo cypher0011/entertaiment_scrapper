@@ -1,0 +1,39 @@
+{
+  "f1c60812-b44c-42b7-819d-4bdad97e58ad": {
+    "status": "interested",
+    "call_date": "2026-06-14",
+    "pitch_ids": [
+      "p1",
+      "p2"
+    ],
+    "follow_up_date": "2026-06-20",
+    "notes": "مهتمه استاذه مشاعل وقالت تبيه في اسبوع",
+    "updated_at": "2026-06-16T11:39:52.288Z",
+    "stage": "qualified",
+    "deal_value": "1250",
+    "economic_buyer": "الاداره",
+    "champion": "مشاعل",
+    "identified_pain": "مهتمين بالفعاليات",
+    "decision_criteria": "",
+    "competitor": "",
+    "next_action": "",
+    "next_date": "",
+    "lost_reason": "",
+    "history": [
+      {
+        "type": "stage",
+        "from": "target",
+        "to": "qualified",
+        "note": "",
+        "at": "2026-06-15T07:00:08.041Z"
+      },
+      {
+        "type": "activity",
+        "channel": "call",
+        "note": "‪+966 53 512 0135‬ \nرقم استاذه مشاعل الشخصي",
+        "at": "2026-06-15T07:41:07.544Z"
+      }
+    ],
+    "last_contact_date": "2026-06-15"
+  }
+}

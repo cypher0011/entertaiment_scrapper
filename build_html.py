@@ -694,6 +694,7 @@ body{{
 }}
 .crm-target    {{background:var(--text3)}}
 .crm-contacted {{background:#D29922}}
+.crm-no_answer {{background:#6E40C9}}
 .crm-qualified {{background:#58A6FF}}
 .crm-discovery {{background:#A371F7}}
 .crm-proposal  {{background:#F78166}}
@@ -987,8 +988,9 @@ body{{
   border-color:rgba(124,58,237,.5);
   color:var(--text);font-weight:700;
 }}
-.stage-btn.stage-won.active{{background:rgba(63,185,80,.15);border-color:rgba(63,185,80,.5)}}
-.stage-btn.stage-lost.active{{background:rgba(218,54,51,.15);border-color:rgba(218,54,51,.5)}}
+.stage-btn.stage-won.active      {{background:rgba(63,185,80,.15);border-color:rgba(63,185,80,.5)}}
+.stage-btn.stage-lost.active     {{background:rgba(218,54,51,.15);border-color:rgba(218,54,51,.5)}}
+.stage-btn.stage-no_answer.active{{background:rgba(110,64,201,.15);border-color:rgba(110,64,201,.5)}}
 .stage-note-wrap{{margin-top:.3rem}}
 
 /* CRM action buttons */
@@ -1469,10 +1471,7 @@ function buildCard(d, idx) {{
   const initials = (d.name_ar || '').slice(0, 2);
   const bgColor = hashColor(d.name_ar || '');
 
-  const thumb = d.thumb_url
-    ? `<img src="${{d.thumb_url}}" loading="lazy" alt="${{esc(d.name_ar)}}"
-        onerror="this.onerror=null;this.parentElement.innerHTML='<div class=\\'no-thumb\\'><div class=\\'no-thumb-initials\\' style=\\'background:${{bgColor}}\\'>${{esc(initials)}}</div></div>'">`
-    : `<div class="no-thumb"><div class="no-thumb-initials" style="background:${{bgColor}}">${{esc(initials)}}</div></div>`;
+  const thumb = `<div class="no-thumb"><div class="no-thumb-initials" style="background:${{bgColor}}">${{esc(initials)}}</div></div>`;
 
   const imgBadge = d.img_count > 1 ? `<div class="img-badge">${{d.img_count}} صورة</div>` : '';
   const ratingBadge = d.rcount > 0
